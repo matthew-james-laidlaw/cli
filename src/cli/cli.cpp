@@ -19,12 +19,12 @@ auto CLI::AddArgument(std::string const& name, std::string const& description) -
         throw std::runtime_error("[error] invalid argument");
     }
 
-    m_info.m_arguments.push_back({name, description});
+    m_info.m_arguments.push_back({
+        .name        = name,
+        .description = description
+    });
 
-    if (name.length() > m_info.m_arg_width)
-    {
-        m_info.m_arg_width = name.length();
-    }
+    m_info.m_arg_width = std::max(name.length(), m_info.m_arg_width);
 }
 
 auto CLI::AddOption(std::optional<std::string> short_name, std::optional<std::string> long_name, std::string const& description) -> void
@@ -44,31 +44,35 @@ auto CLI::AddOption(std::optional<std::string> short_name, std::optional<std::st
         throw std::runtime_error("[error] invalid long option");
     }
 
-    m_info.m_options.push_back({short_name, long_name, description});
+    m_info.m_options.push_back({
+        .short_name  = short_name,
+        .long_name   = long_name,
+        .description = description
+    });
 
-    if (long_name.has_value() && long_name->length() > m_info.m_opt_width)
+    if (long_name)
     {
-        m_info.m_opt_width = long_name->length();
+        m_info.m_opt_width = std::max(long_name->length(), m_info.m_opt_width);
     }
 }
 
 auto CLI::AddSubcommand(std::string const& name, std::string const& description) -> void
 {
-    m_info.m_subcommands.push_back({name, description});
+    m_info.m_subcommands.push_back({
+        .name        = name,
+        .description = description
+    });
 
-    if (name.length() > m_info.m_cmd_width)
-    {
-        m_info.m_cmd_width = name.length();
-    }
+    m_info.m_cmd_width = std::max(name.length(), m_info.m_cmd_width);
 }
 
-auto CLI::Parse(int argc, char** argv) -> std::span<char*>
+auto CLI::Parse(int argc, char** argv) -> void
 {
     if (argc < 2)
     {
         throw std::runtime_error("[error] no arguments provided");
     }
-    return std::span<char*>(argv + 1, static_cast<size_t>(argc - 1));
+    Parse({ argv + 1, static_cast<size_t>(argc - 1) });
 }
 
 auto CLI::Help() const -> void
@@ -83,6 +87,7 @@ auto CLI::Version() const -> void
 
 auto CLI::Parse(std::span<char*> const& args) -> void
 {
+    (void)this;
     throw std::runtime_error("[error] not yet implemented");
 }
 

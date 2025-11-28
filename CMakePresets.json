@@ -2,7 +2,7 @@
     "version": 6,
     "configurePresets": [
         {
-            "name": "configure",
+            "name": "base",
             "binaryDir": "build",
             "generator": "Ninja Multi-Config",
             "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
@@ -11,12 +11,12 @@
     "buildPresets": [
         {
             "name": "debug",
-            "configurePreset": "configure",
+            "configurePreset": "base",
             "configuration": "Debug"
         },
         {
             "name": "release",
-            "configurePreset": "configure",
+            "configurePreset": "base",
             "configuration": "Release"
         }
     ]

@@ -42,7 +42,7 @@ public:
     /**
      * @brief Parse arguments from main.
      */
-    auto Parse(int argc, char** argv) -> std::span<char*>;
+    auto Parse(int argc, char** argv) -> void;
 
     /**
      * @brief Print help text.

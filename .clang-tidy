@@ -1,0 +1,10 @@
+Checks: >
+  -*,
+  bugprone-*,
+  modernize-*,
+  readability-*,
+  performance-*,
+  clang-analyzer-*,
+  -readability-identifier-length,
+  -bugprone-easily-swappable-parameters
+HeaderFilterRegex: "src|apps"
