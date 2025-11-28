@@ -1,0 +1,16 @@
+{
+    "name": "C++",
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+    "containerEnv": {
+        "VCPKG_ROOT": "/opt/vcpkg"
+    },
+    "remoteUser": "vscode",
+    "features": {
+        "ghcr.io/devcontainers/features/common-utils:2": {
+            "installZsh": true
+        }
+    },
+    "postCreateCommand": "vcpkg integrate install"
+}
