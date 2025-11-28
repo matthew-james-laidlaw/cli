@@ -73,117 +73,17 @@ auto CLI::Parse(int argc, char** argv) -> std::span<char*>
 
 auto CLI::Help() const -> void
 {
-    m_info.PrintTitle();
-    m_info.PrintUsage();
-
-    if (!m_info.m_arguments.empty())
-    {
-        m_info.PrintSection("arguments", [&] { m_info.PrintArguments(); });
-    }
-
-    if (!m_info.m_options.empty())
-    {
-        m_info.PrintSection("options", [&] { m_info.PrintOptions(); });
-    }
-
-    if (!m_info.m_subcommands.empty())
-    {
-        m_info.PrintSection("commands", [&] { m_info.PrintCommands(); });
-    }
-
-    std::cout << std::endl;
+    m_info.PrintHelp();
 }
 
 auto CLI::Version() const -> void
 {
-    std::cout << m_info.m_version << std::endl;
+    m_info.PrintVersion();
 }
 
 auto CLI::Parse(std::span<char*> const& args) -> void
 {
     throw std::runtime_error("[error] not yet implemented");
-}
-
-auto CliInfo::PrintTitle() const -> void
-{
-    std::cout << m_name << " - " << m_description << std::endl;
-}
-
-auto CliInfo::PrintUsage() const -> void
-{
-    std::cout << std::endl;
-    std::cout << "usage: " << m_name;
-    
-    if (!m_arguments.empty())
-    {
-        for (auto const& arg : m_arguments)
-        {
-            std::cout << " <" << arg.name << ">";
-        }
-    }
-
-    if (!m_options.empty())
-    {
-        std::cout << " [options]";
-    }
-
-    if (!m_subcommands.empty())
-    {
-        std::cout << " [command]";
-    }
-
-    std::cout << std::endl;
-}
-
-auto CliInfo::PrintArguments() const -> void
-{
-    for (auto const& arg : m_arguments)
-    {
-        std::cout << "  " << std::left << std::setw(m_arg_width) << arg.name << "    " << arg.description << std::endl;
-    }
-}
-
-auto CliInfo::PrintOptions() const -> void
-{
-    for (auto const& opt : m_options)
-    {
-        std::cout << "  ";
-        if (opt.short_name.has_value())
-        {
-            std::cout << *opt.short_name;
-            if (opt.long_name.has_value())
-            {
-                std::cout << ", ";
-            }
-            else
-            {
-                std::cout << "  ";
-            }
-        }
-        else
-        {
-            std::cout << "    ";
-        }
-        
-        if (opt.long_name.has_value())
-        {
-            std::cout << std::left << std::setw(m_opt_width) << *opt.long_name;
-        }
-        else
-        {
-            std::cout << std::string(m_opt_width, ' ');
-        }
-
-        std::cout << "    " << opt.description << std::endl; 
-    }
-}
-
-auto CliInfo::PrintCommands() const -> void
-{
-    for (auto const& cmd : m_subcommands)
-    {
-        std::cout << "  " << std::left << std::setw(m_cmd_width) << cmd.name << "    " << cmd.description << std::endl;
-    }
 }
 
 }
