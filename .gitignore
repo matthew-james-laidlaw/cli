@@ -18,5 +18,7 @@ CMakeUserPresets.json
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #cmake-build-*
 
-.vscode
+.vscode/*
+!.vscode/launch.json
+
 build

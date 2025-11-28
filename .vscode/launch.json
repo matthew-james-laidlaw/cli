@@ -1,0 +1,13 @@
+{
+    "configurations": [
+        {
+            "name": "Launch Target (Windows)",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${command:cmake.launchTargetPath}",
+            "args": [],
+            "cwd": "${command:cmake.buildDirectory}",
+            "console": "externalTerminal"
+        }
+    ]
+}
