@@ -47,6 +47,19 @@ struct CliInfo
         , m_arg_width(0), m_opt_width(0), m_cmd_width(0)
     {}
 
+    template <typename Fn>
+    auto PrintSection(std::string_view header, Fn printer) const -> void
+    {
+        std::cout << std::endl << header << ":" << std::endl << std::endl;
+        printer();
+    }
+
+    auto PrintTitle() const -> void;
+    auto PrintUsage() const -> void;
+    auto PrintArguments() const -> void;
+    auto PrintOptions() const -> void;
+    auto PrintCommands() const -> void;
+
 };
 
 class CLI
@@ -98,21 +111,6 @@ protected:
      * Parse arguments from main as an iterable list.
      */
     auto Parse(std::span<char*> const& args) -> void;
-
-private:
-
-    template <typename Fn>
-    auto PrintSection(std::string_view header, Fn printer) const -> void
-    {
-        std::cout << std::endl << header << ":" << std::endl << std::endl;
-        printer();
-    }
-
-    auto PrintTitle() const -> void;
-    auto PrintUsage() const -> void;
-    auto PrintArguments() const -> void;
-    auto PrintOptions() const -> void;
-    auto PrintCommands() const -> void;
     
 };
 

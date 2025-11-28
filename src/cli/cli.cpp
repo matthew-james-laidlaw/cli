@@ -73,22 +73,22 @@ auto CLI::Parse(int argc, char** argv) -> std::span<char*>
 
 auto CLI::Help() const -> void
 {
-    PrintTitle();
-    PrintUsage();
+    m_info.PrintTitle();
+    m_info.PrintUsage();
 
     if (!m_info.m_arguments.empty())
     {
-        PrintSection("arguments", [&] { PrintArguments(); });
+        m_info.PrintSection("arguments", [&] { m_info.PrintArguments(); });
     }
 
     if (!m_info.m_options.empty())
     {
-        PrintSection("options", [&] { PrintOptions(); });
+        m_info.PrintSection("options", [&] { m_info.PrintOptions(); });
     }
 
     if (!m_info.m_subcommands.empty())
     {
-        PrintSection("commands", [&] { PrintCommands(); });
+        m_info.PrintSection("commands", [&] { m_info.PrintCommands(); });
     }
 
     std::cout << std::endl;
@@ -104,30 +104,30 @@ auto CLI::Parse(std::span<char*> const& args) -> void
     throw std::runtime_error("[error] not yet implemented");
 }
 
-auto CLI::PrintTitle() const -> void
+auto CliInfo::PrintTitle() const -> void
 {
-    std::cout << m_info.m_name << " - " << m_info.m_description << std::endl;
+    std::cout << m_name << " - " << m_description << std::endl;
 }
 
-auto CLI::PrintUsage() const -> void
+auto CliInfo::PrintUsage() const -> void
 {
     std::cout << std::endl;
-    std::cout << "usage: " << m_info.m_name;
+    std::cout << "usage: " << m_name;
     
-    if (!m_info.m_arguments.empty())
+    if (!m_arguments.empty())
     {
-        for (auto const& arg : m_info.m_arguments)
+        for (auto const& arg : m_arguments)
         {
             std::cout << " <" << arg.name << ">";
         }
     }
 
-    if (!m_info.m_options.empty())
+    if (!m_options.empty())
     {
         std::cout << " [options]";
     }
 
-    if (!m_info.m_subcommands.empty())
+    if (!m_subcommands.empty())
     {
         std::cout << " [command]";
     }
@@ -135,17 +135,17 @@ auto CLI::PrintUsage() const -> void
     std::cout << std::endl;
 }
 
-auto CLI::PrintArguments() const -> void
+auto CliInfo::PrintArguments() const -> void
 {
-    for (auto const& arg : m_info.m_arguments)
+    for (auto const& arg : m_arguments)
     {
-        std::cout << "  " << std::left << std::setw(m_info.m_arg_width) << arg.name << "    " << arg.description << std::endl;
+        std::cout << "  " << std::left << std::setw(m_arg_width) << arg.name << "    " << arg.description << std::endl;
     }
 }
 
-auto CLI::PrintOptions() const -> void
+auto CliInfo::PrintOptions() const -> void
 {
-    for (auto const& opt : m_info.m_options)
+    for (auto const& opt : m_options)
     {
         std::cout << "  ";
         if (opt.short_name.has_value())
@@ -167,22 +167,22 @@ auto CLI::PrintOptions() const -> void
         
         if (opt.long_name.has_value())
         {
-            std::cout << std::left << std::setw(m_info.m_opt_width) << *opt.long_name;
+            std::cout << std::left << std::setw(m_opt_width) << *opt.long_name;
         }
         else
         {
-            std::cout << std::string(m_info.m_opt_width, ' ');
+            std::cout << std::string(m_opt_width, ' ');
         }
 
         std::cout << "    " << opt.description << std::endl; 
     }
 }
 
-auto CLI::PrintCommands() const -> void
+auto CliInfo::PrintCommands() const -> void
 {
-    for (auto const& cmd : m_info.m_subcommands)
+    for (auto const& cmd : m_subcommands)
     {
-        std::cout << "  " << std::left << std::setw(m_info.m_cmd_width) << cmd.name << "    " << cmd.description << std::endl;
+        std::cout << "  " << std::left << std::setw(m_cmd_width) << cmd.name << "    " << cmd.description << std::endl;
     }
 }
 
