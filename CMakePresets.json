@@ -1,0 +1,22 @@
+{
+    "version": 6,
+    "configurePresets": [
+        {
+            "name": "configure",
+            "binaryDir": "build",
+            "generator": "Ninja Multi-Config"
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "debug",
+            "configurePreset": "configure",
+            "configuration": "Debug"
+        },
+        {
+            "name": "release",
+            "configurePreset": "configure",
+            "configuration": "Release"
+        }
+    ]
+}
