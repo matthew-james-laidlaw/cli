@@ -1,7 +1,7 @@
 {
     "configurations": [
         {
-            "name": "Launch Target (Windows)",
+            "name": "Launch Target",
             "type": "cppvsdbg",
             "request": "launch",
             "program": "${command:cmake.launchTargetPath}",
