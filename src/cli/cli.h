@@ -28,10 +28,8 @@ struct Command
     std::string description;
 };
 
-class CLI
+struct CliInfo
 {
-private:
-
     std::string m_name;
     std::string m_description;
     std::string m_version;
@@ -43,6 +41,19 @@ private:
     size_t m_arg_width;
     size_t m_opt_width;
     size_t m_cmd_width;
+
+    CliInfo(std::string_view name, std::string_view description, std::string_view version = "0.0.0")
+        : m_name(name), m_description(description), m_version(version)
+        , m_arg_width(0), m_opt_width(0), m_cmd_width(0)
+    {}
+
+};
+
+class CLI
+{
+private:
+
+    CliInfo m_info;
 
 public:
 

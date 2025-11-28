@@ -9,7 +9,7 @@ namespace CLI
 {
 
 CLI::CLI(std::string_view name, std::string_view description, std::string_view version)
-    : m_name(name), m_description(description), m_version(version), m_arg_width(0), m_opt_width(0), m_cmd_width(0)
+    : m_info(name, description, version)
 {}
 
 auto CLI::AddArgument(std::string const& name, std::string const& description) -> void
@@ -19,11 +19,11 @@ auto CLI::AddArgument(std::string const& name, std::string const& description) -
         throw std::runtime_error("[error] invalid argument");
     }
 
-    m_arguments.push_back({name, description});
+    m_info.m_arguments.push_back({name, description});
 
-    if (name.length() > m_arg_width)
+    if (name.length() > m_info.m_arg_width)
     {
-        m_arg_width = name.length();
+        m_info.m_arg_width = name.length();
     }
 }
 
@@ -44,21 +44,21 @@ auto CLI::AddOption(std::optional<std::string> short_name, std::optional<std::st
         throw std::runtime_error("[error] invalid long option");
     }
 
-    m_options.push_back({short_name, long_name, description});
+    m_info.m_options.push_back({short_name, long_name, description});
 
-    if (long_name.has_value() && long_name->length() > m_opt_width)
+    if (long_name.has_value() && long_name->length() > m_info.m_opt_width)
     {
-        m_opt_width = long_name->length();
+        m_info.m_opt_width = long_name->length();
     }
 }
 
 auto CLI::AddSubcommand(std::string const& name, std::string const& description) -> void
 {
-    m_subcommands.push_back({name, description});
+    m_info.m_subcommands.push_back({name, description});
 
-    if (name.length() > m_cmd_width)
+    if (name.length() > m_info.m_cmd_width)
     {
-        m_cmd_width = name.length();
+        m_info.m_cmd_width = name.length();
     }
 }
 
@@ -76,17 +76,17 @@ auto CLI::Help() const -> void
     PrintTitle();
     PrintUsage();
 
-    if (!m_arguments.empty())
+    if (!m_info.m_arguments.empty())
     {
         PrintSection("arguments", [&] { PrintArguments(); });
     }
 
-    if (!m_options.empty())
+    if (!m_info.m_options.empty())
     {
         PrintSection("options", [&] { PrintOptions(); });
     }
 
-    if (!m_subcommands.empty())
+    if (!m_info.m_subcommands.empty())
     {
         PrintSection("commands", [&] { PrintCommands(); });
     }
@@ -96,7 +96,7 @@ auto CLI::Help() const -> void
 
 auto CLI::Version() const -> void
 {
-    std::cout << m_version << std::endl;
+    std::cout << m_info.m_version << std::endl;
 }
 
 auto CLI::Parse(std::span<char*> const& args) -> void
@@ -106,28 +106,28 @@ auto CLI::Parse(std::span<char*> const& args) -> void
 
 auto CLI::PrintTitle() const -> void
 {
-    std::cout << m_name << " - " << m_description << std::endl;
+    std::cout << m_info.m_name << " - " << m_info.m_description << std::endl;
 }
 
 auto CLI::PrintUsage() const -> void
 {
     std::cout << std::endl;
-    std::cout << "usage: " << m_name;
+    std::cout << "usage: " << m_info.m_name;
     
-    if (!m_arguments.empty())
+    if (!m_info.m_arguments.empty())
     {
-        for (auto const& arg : m_arguments)
+        for (auto const& arg : m_info.m_arguments)
         {
             std::cout << " <" << arg.name << ">";
         }
     }
 
-    if (!m_options.empty())
+    if (!m_info.m_options.empty())
     {
         std::cout << " [options]";
     }
 
-    if (!m_subcommands.empty())
+    if (!m_info.m_subcommands.empty())
     {
         std::cout << " [command]";
     }
@@ -137,15 +137,15 @@ auto CLI::PrintUsage() const -> void
 
 auto CLI::PrintArguments() const -> void
 {
-    for (auto const& arg : m_arguments)
+    for (auto const& arg : m_info.m_arguments)
     {
-        std::cout << "  " << std::left << std::setw(m_arg_width) << arg.name << "    " << arg.description << std::endl;
+        std::cout << "  " << std::left << std::setw(m_info.m_arg_width) << arg.name << "    " << arg.description << std::endl;
     }
 }
 
 auto CLI::PrintOptions() const -> void
 {
-    for (auto const& opt : m_options)
+    for (auto const& opt : m_info.m_options)
     {
         std::cout << "  ";
         if (opt.short_name.has_value())
@@ -167,11 +167,11 @@ auto CLI::PrintOptions() const -> void
         
         if (opt.long_name.has_value())
         {
-            std::cout << std::left << std::setw(m_opt_width) << *opt.long_name;
+            std::cout << std::left << std::setw(m_info.m_opt_width) << *opt.long_name;
         }
         else
         {
-            std::cout << std::string(m_opt_width, ' ');
+            std::cout << std::string(m_info.m_opt_width, ' ');
         }
 
         std::cout << "    " << opt.description << std::endl; 
@@ -180,9 +180,9 @@ auto CLI::PrintOptions() const -> void
 
 auto CLI::PrintCommands() const -> void
 {
-    for (auto const& cmd : m_subcommands)
+    for (auto const& cmd : m_info.m_subcommands)
     {
-        std::cout << "  " << std::left << std::setw(m_cmd_width) << cmd.name << "    " << cmd.description << std::endl;
+        std::cout << "  " << std::left << std::setw(m_info.m_cmd_width) << cmd.name << "    " << cmd.description << std::endl;
     }
 }
 
