@@ -5,6 +5,7 @@ Checks: >
   readability-*,
   performance-*,
   clang-analyzer-*,
+  misc-include-cleaner,
   -readability-identifier-length,
   -bugprone-easily-swappable-parameters
 HeaderFilterRegex: "src|apps"

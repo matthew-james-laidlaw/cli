@@ -1,7 +1,13 @@
 #include "cli.h"
 #include "cli_validate.h"
 
-#include <iomanip>
+#include <algorithm>
+#include <cstddef>
+#include <optional>
+#include <span>
+#include <stdexcept>
+#include <string>
+#include <string_view>
 
 using namespace std::string_literals;
 

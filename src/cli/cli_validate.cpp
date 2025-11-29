@@ -1,6 +1,7 @@
 #include "cli_validate.h"
 
 #include <algorithm>
+#include <string>
 
 namespace CLI
 {
