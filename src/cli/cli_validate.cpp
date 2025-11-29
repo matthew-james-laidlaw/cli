@@ -8,7 +8,8 @@ namespace CLI
 
 auto ValidName(std::string const& name) -> bool
 {
-    return !name.empty() && name.front() != '-' && name.back() != '-' && std::ranges::all_of(name, IsName);
+    return !name.empty() && name.front() != '-' && name.back() != '-' &&
+           std::ranges::all_of(name, IsName);
 }
 
 auto ValidShortName(std::string const& name) -> bool
@@ -16,7 +17,7 @@ auto ValidShortName(std::string const& name) -> bool
     bool valid_length = name.length() == 2;
     bool valid_prefix = name[0] == '-';
     bool valid_chars = IsAlpha(name[1]);
-    return valid_length  && valid_prefix && valid_chars;
+    return valid_length && valid_prefix && valid_chars;
 }
 
 auto ValidLongName(std::string const& name) -> bool
@@ -42,4 +43,4 @@ auto IsName(char c) -> bool
     return IsAlpha(c) || c == '-';
 }
 
-}
+} // namespace CLI

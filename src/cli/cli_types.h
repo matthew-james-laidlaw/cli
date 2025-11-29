@@ -25,4 +25,4 @@ struct Command
     std::string description;
 };
 
-}
+} // namespace CLI

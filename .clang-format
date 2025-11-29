@@ -1,0 +1,60 @@
+---
+# Global defaults, based on LLVM but with 4-space indentation
+BasedOnStyle: LLVM
+IndentWidth: 4
+UseTab: Never
+TabWidth: 4
+---
+
+Language: Cpp
+
+# ----- Core Layout -----
+
+# Custom brace wrapping so classes/functions look like your sample
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterClass: true
+  AfterStruct: true
+  AfterControlStatement: true
+  AfterEnum: true
+  AfterNamespace: true
+  AfterFunction: true
+  BeforeElse: true
+  BeforeCatch: true
+  SplitEmptyFunction: false
+
+# Access modifier alignment (private:, public:) like your example
+AccessModifierOffset: -4
+
+# Constructor initializer indentation
+ConstructorInitializerIndentWidth: 4
+BreakConstructorInitializers: BeforeComma
+
+# Ensure “auto Foo(...) -> void” formatting
+AlwaysBreakAfterReturnType: None
+AlwaysBreakAfterDefinitionReturnType: None
+
+# Maintain your exact whitespace style
+UseTab: Never
+IndentWidth: 4
+TabWidth: 4
+
+# Pointer alignment
+DerivePointerAlignment: false
+PointerAlignment: Left
+
+# Keep blank lines between access sections and before methods
+KeepEmptyLinesAtStartOfBlocks: false
+MaxEmptyLinesToKeep: 1
+EmptyLineAfterAccessModifier: Always
+
+# Misc correctness knobs
+IndentNamespaces: None
+AlignTrailingComments: true
+AllowShortFunctionsOnASingleLine: InlineOnly
+SpacesInParentheses: false
+SpaceAfterCStyleCast: false
+
+ColumnLimit: 100
+
+...

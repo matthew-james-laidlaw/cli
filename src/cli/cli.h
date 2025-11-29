@@ -23,7 +23,7 @@ public:
      * @brief Create a new CLI object.
      */
     CLI(std::string_view name, std::string_view description, std::string_view version = "0.0.0");
-    
+
     /**
      * @brief Register a new positional argument with the CLI.
      */
@@ -32,7 +32,8 @@ public:
     /**
      * @brief Register a new optional argument with the CLI.
      */
-    auto AddOption(std::optional<std::string> short_name, std::optional<std::string> long_name, std::string const& description) -> void;
+    auto AddOption(std::optional<std::string> short_name, std::optional<std::string> long_name,
+                   std::string const& description) -> void;
 
     /**
      * @brief Register a new subcommand with the CLI.
@@ -60,7 +61,6 @@ protected:
      * Parse arguments from main as an iterable list.
      */
     auto Parse(std::span<char*> const& args) -> void;
-    
 };
 
-}
+} // namespace CLI

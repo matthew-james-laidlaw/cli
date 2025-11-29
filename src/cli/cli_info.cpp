@@ -43,7 +43,7 @@ auto Info::PrintUsage() const -> void
 {
     std::cout << '\n';
     std::cout << "usage: " << m_name;
-    
+
     if (!m_arguments.empty())
     {
         for (auto const& arg : m_arguments)
@@ -69,7 +69,8 @@ auto Info::PrintArguments() const -> void
 {
     for (auto const& arg : m_arguments)
     {
-        std::cout << "  " << std::left << std::setw(static_cast<std::streamsize>(m_arg_width)) << arg.name << "    " << arg.description << '\n';
+        std::cout << "  " << std::left << std::setw(static_cast<std::streamsize>(m_arg_width))
+                  << arg.name << "    " << arg.description << '\n';
     }
 }
 
@@ -94,17 +95,18 @@ auto Info::PrintOptions() const -> void
         {
             std::cout << "    ";
         }
-        
+
         if (opt.long_name.has_value())
         {
-            std::cout << std::left << std::setw(static_cast<std::streamsize>(m_opt_width)) << *opt.long_name;
+            std::cout << std::left << std::setw(static_cast<std::streamsize>(m_opt_width))
+                      << *opt.long_name;
         }
         else
         {
             std::cout << std::string(m_opt_width, ' ');
         }
 
-        std::cout << "    " << opt.description << '\n'; 
+        std::cout << "    " << opt.description << '\n';
     }
 }
 
@@ -112,8 +114,9 @@ auto Info::PrintCommands() const -> void
 {
     for (auto const& cmd : m_subcommands)
     {
-        std::cout << "  " << std::left << std::setw(static_cast<std::streamsize>(m_cmd_width)) << cmd.name << "    " << cmd.description << '\n';
+        std::cout << "  " << std::left << std::setw(static_cast<std::streamsize>(m_cmd_width))
+                  << cmd.name << "    " << cmd.description << '\n';
     }
 }
 
-}
+} // namespace CLI

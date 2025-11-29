@@ -25,15 +25,12 @@ auto CLI::AddArgument(std::string const& name, std::string const& description) -
         throw std::runtime_error("[error] invalid argument");
     }
 
-    m_info.m_arguments.push_back({
-        .name        = name,
-        .description = description
-    });
-
+    m_info.m_arguments.push_back({.name = name, .description = description});
     m_info.m_arg_width = std::max(name.length(), m_info.m_arg_width);
 }
 
-auto CLI::AddOption(std::optional<std::string> short_name, std::optional<std::string> long_name, std::string const& description) -> void
+auto CLI::AddOption(std::optional<std::string> short_name, std::optional<std::string> long_name,
+                    std::string const& description) -> void
 {
     if (!short_name && !long_name)
     {
@@ -50,11 +47,8 @@ auto CLI::AddOption(std::optional<std::string> short_name, std::optional<std::st
         throw std::runtime_error("[error] invalid long option");
     }
 
-    m_info.m_options.push_back({
-        .short_name  = short_name,
-        .long_name   = long_name,
-        .description = description
-    });
+    m_info.m_options.push_back(
+        {.short_name = short_name, .long_name = long_name, .description = description});
 
     if (long_name)
     {
@@ -64,11 +58,7 @@ auto CLI::AddOption(std::optional<std::string> short_name, std::optional<std::st
 
 auto CLI::AddSubcommand(std::string const& name, std::string const& description) -> void
 {
-    m_info.m_subcommands.push_back({
-        .name        = name,
-        .description = description
-    });
-
+    m_info.m_subcommands.push_back({.name = name, .description = description});
     m_info.m_cmd_width = std::max(name.length(), m_info.m_cmd_width);
 }
 
@@ -78,7 +68,7 @@ auto CLI::Parse(int argc, char** argv) -> void
     {
         throw std::runtime_error("[error] no arguments provided");
     }
-    Parse({ argv + 1, static_cast<size_t>(argc - 1) });
+    Parse({argv + 1, static_cast<size_t>(argc - 1)});
 }
 
 auto CLI::Help() const -> void
@@ -97,4 +87,4 @@ auto CLI::Parse(std::span<char*> const& args) -> void
     throw std::runtime_error("[error] not yet implemented");
 }
 
-}
+} // namespace CLI

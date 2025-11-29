@@ -14,4 +14,4 @@ auto ValidDescription(std::string const& description) -> bool;
 auto IsAlpha(char c) -> bool;
 auto IsName(char c) -> bool;
 
-}
+} // namespace CLI
