@@ -1,6 +1,6 @@
 #pragma once
 
-#include "cli_info.h"
+#include <cli_info.h>
 
 #include <iostream>
 #include <optional>
@@ -11,7 +11,7 @@
 namespace CLI
 {
 
-class CLI
+class Parser
 {
 private:
 
@@ -22,7 +22,7 @@ public:
     /**
      * @brief Create a new CLI object.
      */
-    CLI(std::string_view name, std::string_view description, std::string_view version = "0.0.0");
+    Parser(std::string_view name, std::string_view description, std::string_view version = "0.0.0");
 
     /**
      * @brief Register a new positional argument with the CLI.

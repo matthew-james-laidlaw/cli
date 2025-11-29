@@ -1,5 +1,5 @@
-#include "cli.h"
-#include "cli_validate.h"
+#include <cli_parser.h>
+#include <cli_validate.h>
 
 #include <algorithm>
 #include <cstddef>
@@ -14,11 +14,11 @@ using namespace std::string_literals;
 namespace CLI
 {
 
-CLI::CLI(std::string_view name, std::string_view description, std::string_view version)
+Parser::Parser(std::string_view name, std::string_view description, std::string_view version)
     : m_info(name, description, version)
 {}
 
-auto CLI::AddArgument(std::string const& name, std::string const& description) -> void
+auto Parser::AddArgument(std::string const& name, std::string const& description) -> void
 {
     if (!ValidName(name) || !ValidDescription(description))
     {
@@ -29,8 +29,8 @@ auto CLI::AddArgument(std::string const& name, std::string const& description) -
     m_info.m_arg_width = std::max(name.length(), m_info.m_arg_width);
 }
 
-auto CLI::AddOption(std::optional<std::string> short_name, std::optional<std::string> long_name,
-                    std::string const& description) -> void
+auto Parser::AddOption(std::optional<std::string> short_name, std::optional<std::string> long_name,
+                       std::string const& description) -> void
 {
     if (!short_name && !long_name)
     {
@@ -56,13 +56,13 @@ auto CLI::AddOption(std::optional<std::string> short_name, std::optional<std::st
     }
 }
 
-auto CLI::AddSubcommand(std::string const& name, std::string const& description) -> void
+auto Parser::AddSubcommand(std::string const& name, std::string const& description) -> void
 {
     m_info.m_subcommands.push_back({.name = name, .description = description});
     m_info.m_cmd_width = std::max(name.length(), m_info.m_cmd_width);
 }
 
-auto CLI::Parse(int argc, char** argv) -> void
+auto Parser::Parse(int argc, char** argv) -> void
 {
     if (argc < 2)
     {
@@ -71,17 +71,17 @@ auto CLI::Parse(int argc, char** argv) -> void
     Parse({argv + 1, static_cast<size_t>(argc - 1)});
 }
 
-auto CLI::Help() const -> void
+auto Parser::Help() const -> void
 {
     m_info.PrintHelp();
 }
 
-auto CLI::Version() const -> void
+auto Parser::Version() const -> void
 {
     m_info.PrintVersion();
 }
 
-auto CLI::Parse(std::span<char*> const& args) -> void
+auto Parser::Parse(std::span<char*> const& args) -> void
 {
     (void)this;
     throw std::runtime_error("[error] not yet implemented");
