@@ -4,7 +4,7 @@
 
 using namespace CLI;
 
-TEST(TestCli, Help)
+TEST(TestCli, HelpTitle)
 {
     auto cli = Parser("app", "an example app");
 
@@ -15,7 +15,7 @@ TEST(TestCli, Help)
     ASSERT_EQ(help, "app - an example app\n\nusage: app\n\n");
 }
 
-TEST(TestCli, HelpArg)
+TEST(TestCli, HelpArguments)
 {
     auto cli = Parser("app", "an example app");
 
@@ -31,7 +31,7 @@ TEST(TestCli, HelpArg)
                 help.contains("  arg-b    second positional arg\n\n"));
 }
 
-TEST(TestCli, HelpOpt)
+TEST(TestCli, HelpOptions)
 {
     auto cli = Parser("app", "an example app");
 
@@ -49,7 +49,7 @@ TEST(TestCli, HelpOpt)
                 help.contains("  -c             has only short name\n\n"));
 }
 
-TEST(TestCli, HelpCmd)
+TEST(TestCli, HelpCommands)
 {
     auto cli = Parser("app", "an example app");
 
