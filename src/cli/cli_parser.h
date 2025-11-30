@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cli_info.h>
+#include <cli_parse_context.h>
 
 #include <iostream>
 #include <optional>
@@ -16,6 +17,8 @@ class Parser
 private:
 
     Info m_info;
+    Registered m_registered;
+    ParseResult m_result;
 
 public:
 

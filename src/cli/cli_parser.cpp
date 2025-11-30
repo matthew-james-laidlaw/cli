@@ -1,3 +1,4 @@
+#include <cli_parse_context.h>
 #include <cli_parser.h>
 #include <cli_validate.h>
 
@@ -27,6 +28,7 @@ auto Parser::AddArgument(std::string const& name, std::string const& description
 
     m_info.m_arguments.push_back({.name = name, .description = description});
     m_info.m_arg_width = std::max(name.length(), m_info.m_arg_width);
+    m_registered.args[name] = {.name = name};
 }
 
 auto Parser::AddOption(std::optional<std::string> short_name, std::optional<std::string> long_name,
@@ -54,12 +56,24 @@ auto Parser::AddOption(std::optional<std::string> short_name, std::optional<std:
     {
         m_info.m_opt_width = std::max(long_name->length(), m_info.m_opt_width);
     }
+
+    auto opt = RegOpt{.sname = short_name, .lname = long_name};
+    if (short_name)
+    {
+        m_registered.opts[*short_name] = opt;
+    }
+    if (long_name)
+    {
+        m_registered.opts[*long_name] = opt;
+    }
 }
 
 auto Parser::AddSubcommand(std::string const& name, std::string const& description) -> void
 {
     m_info.m_subcommands.push_back({.name = name, .description = description});
     m_info.m_cmd_width = std::max(name.length(), m_info.m_cmd_width);
+
+    m_registered.cmds[name] = {.name = name, .args = {}, .opts = {}};
 }
 
 auto Parser::Parse(int argc, char** argv) -> void
@@ -83,8 +97,8 @@ auto Parser::Version() const -> void
 
 auto Parser::Parse(std::span<char*> const& args) -> void
 {
-    (void)this;
-    throw std::runtime_error("[error] not yet implemented");
+    auto ctx = ParseContext(args, m_registered);
+    m_result = ctx.Parse();
 }
 
 } // namespace CLI
