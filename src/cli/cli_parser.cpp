@@ -76,13 +76,34 @@ auto Parser::AddSubcommand(std::string const& name, std::string const& descripti
     m_registered.cmds[name] = {.name = name, .args = {}, .opts = {}};
 }
 
-auto Parser::Parse(int argc, char** argv) -> void
+auto Parser::Parse(int argc, char const** argv) -> void
 {
     if (argc < 2)
     {
         throw std::runtime_error("[error] no arguments provided");
     }
-    Parse({argv + 1, static_cast<size_t>(argc - 1)});
+    Parse(std::span<const char*>(argv + 1, static_cast<size_t>(argc - 1)));
+}
+
+auto Parser::Parse(std::span<const char*> const& args) -> void
+{
+    auto ctx = ParseContext(args, m_registered);
+    m_result = ctx.Parse();
+}
+
+auto Parser::Get(std::string const& arg) const -> std::string
+{
+    if (m_result.args.contains(arg))
+    {
+        return m_result.args.at(arg).value;
+    }
+
+    if (m_result.opts.contains(arg))
+    {
+        return m_result.opts.at(arg).value;
+    }
+
+    throw std::runtime_error("[error] unknown argument");
 }
 
 auto Parser::Help() const -> void
@@ -93,12 +114,6 @@ auto Parser::Help() const -> void
 auto Parser::Version() const -> void
 {
     m_info.PrintVersion();
-}
-
-auto Parser::Parse(std::span<char*> const& args) -> void
-{
-    auto ctx = ParseContext(args, m_registered);
-    m_result = ctx.Parse();
 }
 
 } // namespace CLI

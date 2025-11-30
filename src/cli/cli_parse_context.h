@@ -94,8 +94,8 @@ struct ParsedCmd
  */
 struct ParseResult
 {
-    std::vector<ParsedArg> args;
-    std::vector<ParsedOpt> opts;
+    std::unordered_map<std::string, ParsedArg> args;
+    std::unordered_map<std::string, ParsedOpt> opts;
     std::optional<ParsedCmd> cmd;
 };
 
@@ -103,15 +103,15 @@ class ParseContext
 {
 private:
 
-    std::span<char*> const& m_args;
-    std::span<char*>::const_iterator m_current;
+    std::span<char const*> const& m_args;
+    std::span<char const*>::const_iterator m_current;
 
     Registered const& m_registered;
     ParseResult m_result;
 
 public:
 
-    ParseContext(std::span<char*> const& args, Registered const& registered);
+    ParseContext(std::span<char const*> const& args, Registered const& registered);
 
     auto Parse() -> ParseResult;
 

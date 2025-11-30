@@ -1,8 +1,8 @@
-#include "cli.h"
+#include "cli_parser.h"
 
-auto main(int argc, char** argv) -> int
+auto main(int argc, char const** argv) -> int
 {
-    auto cli = CLI::CLI("app", "an example app");
+    auto cli = CLI::Parser("app", "an example app");
     cli.AddArgument("a", "a positional argument");
     cli.AddArgument("ab", "a positional argument");
     cli.AddArgument("abc", "a positional argument");

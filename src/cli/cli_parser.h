@@ -46,7 +46,17 @@ public:
     /**
      * @brief Parse arguments from main.
      */
-    auto Parse(int argc, char** argv) -> void;
+    auto Parse(int argc, char const** argv) -> void;
+
+    /**
+     * @brief Parse arguments from main as an iterable list.
+     */
+    auto Parse(std::span<char const*> const& args) -> void;
+
+    /**
+     * @brief Get the given argument's value.
+     */
+    auto Get(std::string const& arg) const -> std::string;
 
     /**
      * @brief Print help text.
@@ -57,13 +67,6 @@ public:
      * @brief Print version string.
      */
     auto Version() const -> void;
-
-protected:
-
-    /**
-     * Parse arguments from main as an iterable list.
-     */
-    auto Parse(std::span<char*> const& args) -> void;
 };
 
 } // namespace CLI

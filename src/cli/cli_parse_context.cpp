@@ -7,7 +7,7 @@
 namespace CLI
 {
 
-ParseContext::ParseContext(std::span<char*> const& args, Registered const& registered)
+ParseContext::ParseContext(std::span<char const*> const& args, Registered const& registered)
     : m_args(args)
     , m_registered(registered)
 {}
@@ -18,11 +18,11 @@ auto ParseContext::Parse() -> ParseResult
     {
         if (m_registered.args.contains(*m_current))
         {
-            m_result.args.push_back(ParseArgument());
+            m_result.args[*m_current] = ParseArgument();
         }
         else if (m_registered.opts.contains(*m_current))
         {
-            m_result.opts.push_back(ParseOption());
+            m_result.opts[*m_current] = ParseOption();
         }
         else if (m_registered.cmds.contains(*m_current))
         {
@@ -33,6 +33,8 @@ auto ParseContext::Parse() -> ParseResult
             throw std::runtime_error("[error] unexpected argument");
         }
     }
+
+    return m_result;
 }
 
 auto ParseContext::ParseArgument() -> ParsedArg

@@ -84,3 +84,12 @@ TEST(TestCli, HelpCombined)
                 help.contains("  -o, --opt    an optional argument\n\n") &&
                 help.contains("  cmd    a subcommand\n\n"));
 }
+
+TEST(TestCli, ParseArg)
+{
+    auto cli = Parser("app", "an example app");
+    cli.AddArgument("arg", "a positional argument");
+
+    std::vector<const char*> args = { "value" };
+    cli.Parse(std::span<char const*>(args));
+}
