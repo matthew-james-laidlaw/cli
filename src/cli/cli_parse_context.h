@@ -109,6 +109,8 @@ private:
     Registered const& m_registered;
     ParseResult m_result;
 
+    size_t m_current_pos{0};
+
 public:
 
     ParseContext(std::span<char const*> const& args, Registered const& registered);

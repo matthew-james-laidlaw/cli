@@ -9,6 +9,7 @@ namespace CLI
 
 ParseContext::ParseContext(std::span<char const*> const& args, Registered const& registered)
     : m_args(args)
+    , m_current(m_args.begin())
     , m_registered(registered)
 {}
 
